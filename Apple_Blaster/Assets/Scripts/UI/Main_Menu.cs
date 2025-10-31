@@ -34,15 +34,28 @@ public class Main_Menu : MonoBehaviour
 	{
 		if (!string.IsNullOrEmpty(sceneToLoad))
 		{
-			if (SceneTransition.Instance != null)
-				SceneTransition.Instance.TransitionTo(sceneToLoad);
-			else
+			Debug.Log($"Main_Menu: PlayGame requested -> {sceneToLoad}");
+			// Use the static helper which will create a SceneTransition singleton if one doesn't exist yet.
+			try
+			{
+				SceneTransition.TransitionToScene(sceneToLoad);
+			}
+			catch (System.Exception ex)
+			{
+				Debug.LogError($"Main_Menu: Transition failed for PlayGame: {ex}");
+				// If something goes wrong with the transition system, fall back to direct load
 				SceneManager.LoadScene(sceneToLoad);
+			}
 		}
 		else
 		{
 			Debug.LogWarning("Main_Menu.PlayGame called but no sceneToLoad configured in the Inspector.");
 		}
+	}
+
+	private void Awake()
+	{
+		Debug.Log($"Main_Menu.Awake: component present on GameObject '{gameObject.name}'. sceneToLoad='{sceneToLoad}', optionsSceneName='{optionsSceneName}', mainMenuSceneName='{mainMenuSceneName}'");
 	}
 
 	/// <summary>
@@ -52,10 +65,16 @@ public class Main_Menu : MonoBehaviour
 	{
 		if (!string.IsNullOrEmpty(optionsSceneName))
 		{
-			if (SceneTransition.Instance != null)
-				SceneTransition.Instance.TransitionTo(optionsSceneName);
-			else
+			Debug.Log($"Main_Menu: OpenOptions requested -> {optionsSceneName}");
+			try
+			{
+				SceneTransition.TransitionToScene(optionsSceneName);
+			}
+			catch (System.Exception ex)
+			{
+				Debug.LogError($"Main_Menu: Transition failed for OpenOptions: {ex}");
 				SceneManager.LoadScene(optionsSceneName, LoadSceneMode.Single);
+			}
 		}
 		else
 		{
@@ -71,10 +90,16 @@ public class Main_Menu : MonoBehaviour
 	{
 		if (!string.IsNullOrEmpty(mainMenuSceneName))
 		{
-			if (SceneTransition.Instance != null)
-				SceneTransition.Instance.TransitionTo(mainMenuSceneName);
-			else
+			Debug.Log($"Main_Menu: CloseOptions requested -> {mainMenuSceneName}");
+			try
+			{
+				SceneTransition.TransitionToScene(mainMenuSceneName);
+			}
+			catch (System.Exception ex)
+			{
+				Debug.LogError($"Main_Menu: Transition failed for CloseOptions: {ex}");
 				SceneManager.LoadScene(mainMenuSceneName);
+			}
 		}
 		else
 		{
@@ -102,10 +127,16 @@ public class Main_Menu : MonoBehaviour
 	{
 		if (!string.IsNullOrEmpty(mainMenuSceneName))
 		{
-			if (SceneTransition.Instance != null)
-				SceneTransition.Instance.TransitionTo(mainMenuSceneName);
-			else
+			Debug.Log($"Main_Menu: ReturnToMainMenu requested -> {mainMenuSceneName}");
+			try
+			{
+				SceneTransition.TransitionToScene(mainMenuSceneName);
+			}
+			catch (System.Exception ex)
+			{
+				Debug.LogError($"Main_Menu: Transition failed for ReturnToMainMenu: {ex}");
 				SceneManager.LoadScene(mainMenuSceneName);
+			}
 		}
 		else
 		{

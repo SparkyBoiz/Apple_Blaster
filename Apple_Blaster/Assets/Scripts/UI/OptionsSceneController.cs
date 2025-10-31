@@ -19,16 +19,27 @@ public class OptionsSceneController : MonoBehaviour
     /// </summary>
     public void Back()
     {
+        Debug.Log($"OptionsSceneController: Back requested -> {mainMenuSceneName}");
         if (!string.IsNullOrEmpty(mainMenuSceneName))
         {
-            if (SceneTransition.Instance != null)
-                SceneTransition.Instance.TransitionTo(mainMenuSceneName);
-            else
+            try
+            {
+                SceneTransition.TransitionToScene(mainMenuSceneName);
+            }
+            catch (System.Exception ex)
+            {
+                Debug.LogError($"OptionsSceneController: Transition failed for Back: {ex}");
                 SceneManager.LoadScene(mainMenuSceneName);
+            }
         }
         else
         {
             Debug.LogWarning("OptionsSceneController.Back: no mainMenuSceneName configured. Set mainMenuSceneName to enable returning to the main menu.");
         }
+    }
+
+    private void Awake()
+    {
+        Debug.Log($"OptionsSceneController.Awake: component present on GameObject '{gameObject.name}'. mainMenuSceneName='{mainMenuSceneName}'");
     }
 }
